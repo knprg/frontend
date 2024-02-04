@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="form-container">
+  <h2>Simple Form</h2>
+  <form id="myForm">
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" required>
+    <br>
+    <br>
+    <label for="phoneNumber">Phone Number:</label>
+    <input type="tel" id="phoneNumber" name="phoneNumber" pattern="[0-9]{10}" required placeholder="e.g., 1234567890">
+    <br>
+    <br>
+    <label for="psp">PSP (Problem Solving Percentage):</label>
+    <input type="number" id="psp" name="psp" required>
+    <br>
+    <br>
+    <button type="button" onclick="submitForm()">Submit</button>
+  </form>
+</div>
+    
+<script>
+    function submitForm() {
+      // Get form values
+      var name = document.getElementById('name').value;
+      var phoneNumber = document.getElementById('phoneNumber').value;
+      var psp = document.getElementById('psp').value;
+  
+      // Basic validation
+      if (!name || !phoneNumber || !psp) {
+        alert('Please fill in all fields.');
+        return;
+      }
+
+      var formData = {
+        name: name,
+        phoneNumber: phoneNumber,
+        psp: psp
+      } ;
+      
+      fetch('http://localhost:8082/create',{
+        method: 'PUT' ,
+        headers: {
+            'Content-Type': 'application/json',
+        } ,
+        body: JSON.stringify(formData),
+      })
+      .then(responce => responce.json())
+      .then(data => {
+        alert('Form submitted succesfully!\n Server Response: ' + JSON.stringify(data)) ;
+        document.getElementById('myForm').reset() ;
+      })
+      .catch(error => {
+        console.error('Error:',error);
+        alert('An error occured while submitting form. Please try again.');
+      }) ;
+    
+      // Additional validation for phone number (if needed)
+      // You can add more validation based on your requirements.
+  
+      // Process the form data (you can send it to a server or perform other actions)
+     
+    }
+  </script>
+</body>
+</html>
