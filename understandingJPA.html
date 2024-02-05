@@ -101,7 +101,7 @@
         fetch('http://localhost:8082/getStudent?name='+ encodeURIComponent(searchName))
         .then(response => response.json())
         .then(foundStudent => {
-            if(foundStudent.length>0){
+            if(foundStudent != null){
                 alert('Found Students:\n' + JSON.stringify(foundStudent)) ;
             } else {
                 alert('No students found with given name.');
